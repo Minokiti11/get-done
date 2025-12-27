@@ -4,14 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+console.log('index.tsx: 実行開始');
+
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  console.error('index.tsx: root要素が見つかりません');
+  throw new Error('root要素が見つかりません');
+}
+
+console.log('index.tsx: root要素を取得しました', rootElement);
+
+const root = ReactDOM.createRoot(rootElement);
+console.log('index.tsx: ReactDOM.createRoot完了');
+
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
+
+console.log('index.tsx: render完了');
 
 // Service Worker Registration
 if ('serviceWorker' in navigator) {
