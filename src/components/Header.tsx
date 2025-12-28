@@ -30,7 +30,11 @@ const Header: React.FC<HeaderProps> = ({ title, searchQuery, onSearchChange, use
               </span>
               {onLogout && (
                 <button
-                  onClick={onLogout}
+                  onClick={() => {
+                    if (window.confirm("本当にログアウトしますか？")) {
+                      onLogout();
+                    }
+                  }}
                   style={{
                     border: 'none',
                     backgroundColor: 'transparent',
