@@ -45,19 +45,21 @@ const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
       
-      <div 
-        style={{
-          width: '256px',
-          backgroundColor: '#F9FAFB',
-          borderRight: '1px solid #E5E7EB',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
-          zIndex: 999
-        }}
-        className="sidebar"
-        data-show={showSidebar}
-      >
+      <div className="sidebar-container" style={{ width: '256px', flexShrink: 0 }}>
+        <div 
+          style={{
+            width: '256px',
+            backgroundColor: '#F9FAFB',
+            borderRight: '1px solid #E5E7EB',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative',
+            zIndex: 999,
+            height: '100vh'
+          }}
+          className="sidebar"
+          data-show={showSidebar}
+        >
         <div style={{
           padding: '16px',
           borderBottom: '1px solid #E5E7EB'
@@ -225,7 +227,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             <span>完了</span>
           </button>
         </div>
-      </div>
+        </div>
+        </div>
       </div>
     </>
   );

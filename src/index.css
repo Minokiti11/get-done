@@ -22,12 +22,19 @@ body {
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
+  /* サイドバーの親コンテナを非表示に */
+  .sidebar-container {
+    width: 0 !important;
+    min-width: 0 !important;
+  }
+  
   /* サイドバーをモバイルで非表示 */
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
+    width: 256px;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
     z-index: 999;
