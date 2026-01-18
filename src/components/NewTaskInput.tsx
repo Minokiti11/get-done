@@ -57,9 +57,6 @@ const NewTaskInput: React.FC<NewTaskInputProps> = ({
               value={newTaskText}
               onChange={(e) => onTextChange(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleAddTask();
-                }
                 if (e.key === 'Escape') {
                   handleCancel();
                 }
