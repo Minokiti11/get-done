@@ -45,26 +45,27 @@ const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
       
-      <div style={{
-        width: '256px',
-        backgroundColor: '#F9FAFB',
-        borderRight: '1px solid #E5E7EB',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        zIndex: 999
-      }}
-      className="sidebar"
-      data-show={showSidebar}
+      <div 
+        style={{
+          width: '256px',
+          backgroundColor: '#F9FAFB',
+          borderRight: '1px solid #E5E7EB',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          zIndex: 999
+        }}
+        className="sidebar"
+        data-show={showSidebar}
       >
-      <div style={{
-        padding: '16px',
-        borderBottom: '1px solid #E5E7EB'
-      }}>
-        <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>Get Done</h1>
-      </div>
+        <div style={{
+          padding: '16px',
+          borderBottom: '1px solid #E5E7EB'
+        }}>
+          <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>Get Done</h1>
+        </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
         {/* インボックス */}
         <button
           onClick={() => onViewChange('inbox', null)}
@@ -224,6 +225,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <span>完了</span>
           </button>
         </div>
+      </div>
       </div>
     </>
   );
