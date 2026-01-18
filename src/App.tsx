@@ -33,6 +33,7 @@ function App() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallBanner, setShowInstallBanner] = useState<boolean>(false);
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
   // 認証状態の監視
   useEffect(() => {
@@ -331,7 +332,7 @@ function App() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: 'white' }}>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: 'white', position: 'relative' }}>
       <InstallBanner
         show={showInstallBanner}
         onInstall={handleInstallClick}
@@ -343,18 +344,24 @@ function App() {
         selectedProject={selectedProject}
         tasks={tasks}
         projects={projects}
-        onViewChange={handleViewChange}
+        onViewChange={(view, projectId) => {
+          handleViewChange(view, projectId);
+          setShowSidebar(false);
+        }}
         onAddProject={addProject}
         onDeleteProject={deleteProject}
+        showSidebar={showSidebar}
+        onClose={() => setShowSidebar(false)}
       />
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         <Header
           title={getViewTitle()}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           user={user}
           onLogout={handleLogout}
+          onMenuClick={() => setShowSidebar(!showSidebar)}
         />
 
         <div style={{ flex: 1, overflowY: 'auto' }}>

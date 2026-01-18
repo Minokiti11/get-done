@@ -10,6 +10,8 @@ interface SidebarProps {
   onViewChange: (view: ViewType, projectId: number | null) => void;
   onAddProject: (name: string) => void;
   onDeleteProject?: (projectId: number) => void;
+  showSidebar: boolean;
+  onClose: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -19,16 +21,42 @@ const Sidebar: React.FC<SidebarProps> = ({
   projects,
   onViewChange,
   onAddProject,
-  onDeleteProject
+  onDeleteProject,
+  showSidebar,
+  onClose
 }) => {
   return (
-    <div style={{
-      width: '256px',
-      backgroundColor: '#F9FAFB',
-      borderRight: '1px solid #E5E7EB',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <>
+      {/* オーバーレイ（モバイル時） */}
+      {showSidebar && (
+        <div
+          onClick={onClose}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 998,
+            display: 'none'
+          }}
+          className="sidebar-overlay"
+        />
+      )}
+      
+      <div style={{
+        width: '256px',
+        backgroundColor: '#F9FAFB',
+        borderRight: '1px solid #E5E7EB',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        zIndex: 999
+      }}
+      className="sidebar"
+      data-show={showSidebar}
+      >
       <div style={{
         padding: '16px',
         borderBottom: '1px solid #E5E7EB'
@@ -197,7 +225,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

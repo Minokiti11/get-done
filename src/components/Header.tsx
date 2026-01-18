@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, LogOut } from 'lucide-react';
+import { Search, LogOut, Menu } from 'lucide-react';
 
 interface HeaderProps {
   title: string;
@@ -7,9 +7,10 @@ interface HeaderProps {
   onSearchChange: (query: string) => void;
   user?: any;
   onLogout?: () => void;
+  onMenuClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, searchQuery, onSearchChange, user, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ title, searchQuery, onSearchChange, user, onLogout, onMenuClick }) => {
   return (
     <div style={{
       borderBottom: '1px solid #E5E7EB',
@@ -19,12 +20,38 @@ const Header: React.FC<HeaderProps> = ({ title, searchQuery, onSearchChange, use
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: '16px'
+        marginBottom: '16px',
+        gap: '12px'
       }}>
-        <h2 style={{ fontSize: '24px', fontWeight: 'bold' }}>{title}</h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
+          {onMenuClick && (
+            <button
+              onClick={onMenuClick}
+              style={{
+                border: 'none',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+                padding: '4px',
+                display: 'none',
+                alignItems: 'center'
+              }}
+              className="menu-button"
+            >
+              <Menu size={24} color="#374151" />
+            </button>
+          )}
+          <h2 style={{ 
+            fontSize: '24px', 
+            fontWeight: 'bold',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            minWidth: 0
+          }}>{title}</h2>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
           {user && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="user-info">
               <span style={{ fontSize: '14px', color: '#6B7280' }}>
                 {user.email}
               </span>
@@ -50,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ title, searchQuery, onSearchChange, use
               )}
             </div>
           )}
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }} className="search-box">
             <Search size={16} style={{
               position: 'absolute',
               left: '12px',
@@ -71,7 +98,8 @@ const Header: React.FC<HeaderProps> = ({ title, searchQuery, onSearchChange, use
                 border: '1px solid #D1D5DB',
                 borderRadius: '8px',
                 fontSize: '14px',
-                outline: 'none'
+                outline: 'none',
+                width: '200px'
               }}
             />
           </div>
