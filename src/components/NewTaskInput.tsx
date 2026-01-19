@@ -16,7 +16,18 @@ const NewTaskInput: React.FC<NewTaskInputProps> = ({
   onShowChange,
   onAddTask
 }) => {
-  const [dueDate, setDueDate] = useState<string>('');
+  // デフォルトで今日の現在時刻を設定
+  const getDefaultDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+  
+  const [dueDate, setDueDate] = useState<string>(getDefaultDateTime());
   const [reminderMinutes, setReminderMinutes] = useState<number>(0);
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
@@ -27,7 +38,7 @@ const NewTaskInput: React.FC<NewTaskInputProps> = ({
         dueDate || undefined,
         reminderMinutes > 0 ? reminderMinutes : undefined
       );
-      setDueDate('');
+      setDueDate(getDefaultDateTime());
       setReminderMinutes(0);
       setShowOptions(false);
     }
@@ -36,7 +47,7 @@ const NewTaskInput: React.FC<NewTaskInputProps> = ({
   const handleCancel = () => {
     onShowChange(false);
     onTextChange('');
-    setDueDate('');
+    setDueDate(getDefaultDateTime());
     setReminderMinutes(0);
     setShowOptions(false);
   };

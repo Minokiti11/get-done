@@ -53,8 +53,8 @@ body {
     display: flex !important;
   }
   
-  /* ユーザー情報を非表示 */
-  .user-info {
+  /* ユーザー情報のメールアドレスを非表示（ログアウトボタンは表示） */
+  .user-info span {
     display: none !important;
   }
   
