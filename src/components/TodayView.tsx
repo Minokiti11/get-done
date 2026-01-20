@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Task } from '../utils/types';
 import TaskItem from './TaskItem';
 
@@ -18,6 +19,7 @@ const TodayView: React.FC<TodayViewProps> = ({
   onAddToToday,
 }) => {
   const [isDragOver, setIsDragOver] = React.useState(false);
+  const [isAllTasksExpanded, setIsAllTasksExpanded] = React.useState(true);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -133,57 +135,77 @@ const TodayView: React.FC<TodayViewProps> = ({
         overflowY: 'auto',
         padding: '16px'
       }}>
-        <h3 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          marginBottom: '12px',
-          color: '#6B7280',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em'
-        }}>
-          すべてのタスク
-        </h3>
-
-        {allTasks.length === 0 ? (
-          <div style={{
+        <div
+          onClick={() => setIsAllTasksExpanded(!isAllTasksExpanded)}
+          style={{
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            height: '200px',
-            color: '#9CA3AF'
+            justifyContent: 'space-between',
+            marginBottom: '12px',
+            cursor: 'pointer',
+            padding: '8px 0',
+            userSelect: 'none'
+          }}
+        >
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#6B7280',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            margin: 0
           }}>
-            <p style={{ fontSize: '16px' }}>タスクがありません</p>
-          </div>
-        ) : (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #E5E7EB',
-            overflow: 'hidden'
-          }}>
-            {allTasks.map(task => {
-              const taskDragStart = (e: React.DragEvent) => {
-                e.dataTransfer.setData('task', JSON.stringify(task));
-              };
-              
-              return (
-                <div
-                  key={task.id}
-                  draggable
-                  onDragStart={taskDragStart}
-                  style={{ cursor: 'grab' }}
-                >
-                  <TaskItem
-                    task={task}
-                    onToggle={onToggle}
-                    onDelete={() => {}}
-                    isDraggable={false}
-                  />
-                </div>
-              );
-            })}
-          </div>
+            すべてのタスク ({allTasks.length})
+          </h3>
+          {isAllTasksExpanded ? (
+            <ChevronUp size={20} color="#6B7280" />
+          ) : (
+            <ChevronDown size={20} color="#6B7280" />
+          )}
+        </div>
+
+        {isAllTasksExpanded && (
+          allTasks.length === 0 ? (
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '200px',
+              color: '#9CA3AF'
+            }}>
+              <p style={{ fontSize: '16px' }}>タスクがありません</p>
+            </div>
+          ) : (
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              border: '1px solid #E5E7EB',
+              overflow: 'hidden'
+            }}>
+              {allTasks.map(task => {
+                const taskDragStart = (e: React.DragEvent) => {
+                  e.dataTransfer.setData('task', JSON.stringify(task));
+                };
+                
+                return (
+                  <div
+                    key={task.id}
+                    draggable
+                    onDragStart={taskDragStart}
+                    style={{ cursor: 'grab' }}
+                  >
+                    <TaskItem
+                      task={task}
+                      onToggle={onToggle}
+                      onDelete={() => {}}
+                      isDraggable={false}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )
         )}
       </div>
     </div>
