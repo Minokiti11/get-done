@@ -38,10 +38,6 @@ const TodayView: React.FC<TodayViewProps> = ({
     }
   };
 
-  const handleDragStart = (task: Task, e: React.DragEvent) => {
-    e.dataTransfer.setData('task', JSON.stringify(task));
-  };
-
   const canAddMore = todayTasks.length < 3;
 
   return (
