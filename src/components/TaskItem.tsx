@@ -6,10 +6,12 @@ interface TaskItemProps {
   task: Task;
   onToggle: (taskId: number) => void;
   onDelete: (taskId: number) => void;
+  isDraggable?: boolean;
+  onDragStart?: (task: Task) => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
-  // 日時をフォーマットする関数
+const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete, isDraggable, onDragStart }) => {
+  // 日時をフォーマットする関数（日本時間で表示）
   const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -19,14 +21,24 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
     return `${month}/${day} ${hours}:${minutes}`;
   };
 
+  const handleDragStart = (e: React.DragEvent) => {
+    if (isDraggable && onDragStart) {
+      e.dataTransfer.setData('task', JSON.stringify(task));
+      onDragStart(task);
+    }
+  };
+
   return (
     <div
+      draggable={isDraggable}
+      onDragStart={handleDragStart}
       style={{
         display: 'flex',
         alignItems: 'center',
         gap: '12px',
         padding: '12px 16px',
-        borderBottom: '1px solid #F3F4F6'
+        borderBottom: '1px solid #F3F4F6',
+        cursor: isDraggable ? 'grab' : 'default'
       }}
       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F9FAFB'}
       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}

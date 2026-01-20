@@ -7,6 +7,8 @@ export interface Task {
   dueDate?: string; // ISO string形式の期限日時
   reminderMinutes?: number; // リマインダー時間（分）
   userId?: string; // SupabaseのユーザーID
+  isToday?: boolean; // 今日タブに追加されているか
+  todayOrder?: number; // 今日タブでの表示順序
 }
 
 export interface Project {

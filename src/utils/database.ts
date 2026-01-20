@@ -24,6 +24,8 @@ export const database = {
       dueDate: task.due_date,
       reminderMinutes: task.reminder_minutes,
       userId: task.user_id,
+      isToday: task.is_today,
+      todayOrder: task.today_order,
     }));
   },
 
@@ -45,6 +47,8 @@ export const database = {
         created_at: task.createdAt,
         due_date: task.dueDate,
         reminder_minutes: task.reminderMinutes,
+        is_today: task.isToday,
+        today_order: task.todayOrder,
       })
       .select()
       .single();
@@ -63,6 +67,8 @@ export const database = {
       dueDate: data.due_date,
       reminderMinutes: data.reminder_minutes,
       userId: data.user_id,
+      isToday: data.is_today,
+      todayOrder: data.today_order,
     };
   },
 

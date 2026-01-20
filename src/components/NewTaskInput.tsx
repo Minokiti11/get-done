@@ -33,9 +33,12 @@ const NewTaskInput: React.FC<NewTaskInputProps> = ({
 
   const handleAddTask = () => {
     if (newTaskText.trim()) {
+      // datetime-localの値をJST（日本時間）としてISO文字列に変換
+      const dueDateISO = dueDate ? new Date(dueDate).toISOString() : undefined;
+      
       onAddTask(
         newTaskText,
-        dueDate || undefined,
+        dueDateISO,
         reminderMinutes > 0 ? reminderMinutes : undefined
       );
       setDueDate(getDefaultDateTime());

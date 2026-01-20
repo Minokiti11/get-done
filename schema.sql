@@ -8,7 +8,9 @@ CREATE TABLE IF NOT EXISTS tasks (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   due_date TIMESTAMPTZ,
   reminder_minutes INTEGER,
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  is_today BOOLEAN DEFAULT FALSE,
+  today_order INTEGER
 );
 
 -- プロジェクトテーブル

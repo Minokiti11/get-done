@@ -199,15 +199,56 @@ function App() {
 
     switch (selectedView) {
       case 'inbox':
-        return filtered.filter(t => !t.projectId && !t.completed);
+        return filtered.filter(t => !t.projectId && !t.completed && !t.isToday);
       case 'today':
-        return filtered.filter(t => !t.completed);
+        return filtered.filter(t => t.isToday && !t.completed).sort((a, b) => (a.todayOrder || 0) - (b.todayOrder || 0));
       case 'completed':
         return filtered.filter(t => t.completed);
       case 'project':
-        return filtered.filter(t => t.projectId === selectedProject && !t.completed);
+        return filtered.filter(t => t.projectId === selectedProject && !t.completed && !t.isToday);
       default:
         return filtered;
+    }
+  };
+
+  const addTaskToToday = async (task: Task) => {
+    if (!user) return;
+    
+    const todayTasks = tasks.filter(t => t.isToday && !t.completed);
+    if (todayTasks.length >= 3) {
+      alert('今日のタスクは最大3個までです');
+      return;
+    }
+
+    const updatedTask = {
+      ...task,
+      isToday: true,
+      todayOrder: todayTasks.length,
+      userId: user.id
+    };
+
+    const savedTask = await database.saveTask(updatedTask);
+    if (savedTask) {
+      setTasks(tasks.map(t => t.id === task.id ? savedTask : t));
+    }
+  };
+
+  const removeTaskFromToday = async (taskId: number) => {
+    if (!user) return;
+    
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const updatedTask = {
+      ...task,
+      isToday: false,
+      todayOrder: undefined,
+      userId: user.id
+    };
+
+    const savedTask = await database.saveTask(updatedTask);
+    if (savedTask) {
+      setTasks(tasks.map(t => t.id === taskId ? savedTask : t));
     }
   };
 
@@ -368,7 +409,12 @@ function App() {
           <TaskList
             tasks={getFilteredTasks()}
             onToggle={toggleTask}
-            onDelete={deleteTask}
+            onDelete={selectedView === 'today' ? removeTaskFromToday : deleteTask}
+            isDraggable={selectedView !== 'today' && selectedView !== 'completed'}
+            onDragStart={() => {}}
+            isDroppable={selectedView === 'today'}
+            onDrop={addTaskToToday}
+            maxItems={3}
           />
         </div>
 
