@@ -6,6 +6,7 @@ import InstallBanner from './components/InstallBanner';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import TaskList from './components/TaskList';
+import TodayView from './components/TodayView';
 import NewTaskInput from './components/NewTaskInput';
 import Login from './components/Login';
 
@@ -405,17 +406,25 @@ function App() {
           onMenuClick={() => setShowSidebar(!showSidebar)}
         />
 
-        <div style={{ flex: 1, overflowY: 'auto' }}>
-          <TaskList
-            tasks={getFilteredTasks()}
-            onToggle={toggleTask}
-            onDelete={selectedView === 'today' ? removeTaskFromToday : deleteTask}
-            isDraggable={selectedView !== 'today' && selectedView !== 'completed'}
-            onDragStart={() => {}}
-            isDroppable={selectedView === 'today'}
-            onDrop={addTaskToToday}
-            maxItems={3}
-          />
+        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+          {selectedView === 'today' ? (
+            <TodayView
+              todayTasks={tasks.filter(t => t.isToday && !t.completed).sort((a, b) => (a.todayOrder || 0) - (b.todayOrder || 0))}
+              allTasks={tasks.filter(t => !t.isToday && !t.completed)}
+              onToggle={toggleTask}
+              onRemoveFromToday={removeTaskFromToday}
+              onAddToToday={addTaskToToday}
+            />
+          ) : (
+            <TaskList
+              tasks={getFilteredTasks()}
+              onToggle={toggleTask}
+              onDelete={deleteTask}
+              isDraggable={false}
+              onDragStart={() => {}}
+              isDroppable={false}
+            />
+          )}
         </div>
 
         <NewTaskInput
