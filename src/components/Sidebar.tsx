@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Inbox, Star, CheckCircle2 } from 'lucide-react';
+import { Plus, Star, CheckCircle2 } from 'lucide-react';
 import { Task, Project, ViewType } from '../utils/types';
 
 interface SidebarProps {
@@ -68,37 +68,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
-        {/* インボックス */}
-        <button
-          onClick={() => onViewChange('inbox', null)}
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            padding: '8px 12px',
-            backgroundColor: selectedView === 'inbox' ? '#DBEAFE' : 'transparent',
-            color: selectedView === 'inbox' ? '#2563EB' : '#374151',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: 500
-          }}
-        >
-          <Inbox size={20} />
-          <span>インボックス</span>
-          <span style={{
-            marginLeft: 'auto',
-            fontSize: '12px',
-            backgroundColor: '#E5E7EB',
-            padding: '2px 8px',
-            borderRadius: '12px'
-          }}>
-            {tasks.filter(t => !t.projectId && !t.completed).length}
-          </span>
-        </button>
-
         {/* 今日 */}
         <button
           onClick={() => onViewChange('today', null)}

@@ -27,7 +27,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedView, setSelectedView] = useState<ViewType>('inbox');
+  const [selectedView, setSelectedView] = useState<ViewType>('today');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [newTaskText, setNewTaskText] = useState<string>('');
   const [showNewTask, setShowNewTask] = useState<boolean>(false);
